@@ -1,0 +1,81 @@
+<?php
+
+
+namespace App\Services;
+
+
+use App\DAO\ClientDAO;
+use App\Http\Resources\ClientResource;
+use App\Model\Client;
+
+
+/**
+ * Class ClientService to handle business logic for client
+ * @package App\Services
+ */
+class ClientService
+{
+    protected $clientDAO = null;
+    protected $client = null;
+
+    public function __construct(Client $client = null)
+    {
+        $this->clientDAO = new ClientDAO();
+        $this->client = $client;
+    }
+
+    /**
+     * Create Client and return status message
+     * @param $data
+     * @return array
+     */
+    public function create(array $data)
+    {
+        $result = [];
+
+        try {
+
+            $this->clientDAO->create($data);
+            $result['success'] = 'Client created successfully';
+
+        } catch (\Exception $exception) {
+            $result['error'] = 'Error: failed to create client' . $exception->getMessage();
+        }
+
+        return $result;
+    }
+
+    public function update(Client $client, array $data)
+    {
+
+        $result = [];
+
+        try {
+
+            $cl = $this->clientDAO->update($client, $data);
+            $result['success'] = 'Client updated successfully';
+
+        } catch (\Exception $exception) {
+            $result['error'] = 'Error: failed to update client' . $exception->getMessage();
+        }
+
+        return $result;
+    }
+
+    /**
+     * Creates paginate json client resource list
+     * @param $perPage
+     * @param null $page
+     * @return \Illuminate\Pagination\LengthAwarePaginator
+     */
+    public function getClients($perPage, $page = null)
+    {
+        $clients = $this->clientDAO->all()->map(function ($client) {
+            return new ClientResource($client);
+        });
+
+        return (new PaginateService($clients))->paginate($perPage, null, $page);
+
+    }
+
+}

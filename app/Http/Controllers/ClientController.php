@@ -2,81 +2,67 @@
 
 namespace App\Http\Controllers;
 
-use App\Client;
+use App\Model\Client;
+use App\Services\ClientService;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    protected $clientService = null;
+
+    public function __construct(ClientService $service)
     {
-        //
+        $this->clientService = $service;
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Paginated Client listing as json client resource response.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function index(Request $request)
     {
-        //
+        $perPage = 10;
+        $page = $request->has('page') ? $request->page : null;
+
+        return response()->json($this->clientService->getClients($perPage, $page));
     }
 
+
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created Client.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        return response()->json($this->clientService->create(
+            $request->only(['first_name', 'last_name', 'email', 'avatar'])
+        ));
+
     }
 
     /**
-     * Display the specified resource.
+     * Update the Client.
      *
-     * @param  \App\Client  $client
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Client $client)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Client  $client
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Client $client)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Client  $client
+     * @param \Illuminate\Http\Request $request
+     * @param Client $client
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Client $client)
     {
-        //
+        return response()->json($this->clientService->update(
+            $client, $request->only(['first_name', 'last_name', 'email', 'avatar'])), 200
+        );
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Client  $client
-     * @return \Illuminate\Http\Response
+     * @param Client $client
+     * @return void
      */
     public function destroy(Client $client)
     {
