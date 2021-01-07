@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ClientCreateRequest;
+use App\Http\Requests\ClientUpdateRequest;
 use App\Http\Resources\ClientResource;
 use App\Model\Client;
 use App\Services\ClientService;
@@ -36,7 +38,7 @@ class ClientController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ClientCreateRequest $request)
     {
         return response()->json($this->clientService->create(
             $request->only(['first_name', 'last_name', 'email', 'avatar'])
@@ -50,7 +52,7 @@ class ClientController extends Controller
      * @param Client $client
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Client $client)
+    public function update(ClientUpdateRequest $request, Client $client)
     {
         return response()->json($this->clientService->update(
             $client, $request->only(['first_name', 'last_name', 'email', 'avatar'])), 200
