@@ -56,7 +56,23 @@ class ClientService
             $result['success'] = 'Client updated successfully';
 
         } catch (\Exception $exception) {
-            $result['error'] = 'Error: failed to update client' . $exception->getMessage();
+            $result['error'] = 'Error: failed to update client';
+        }
+
+        return $result;
+    }
+    public function delete(Client $client)
+    {
+
+        $result = [];
+
+        try {
+
+            $cl = $this->clientDAO->delete($client);
+            $result['success'] = 'Client deleted successfully';
+
+        } catch (\Exception $exception) {
+            $result['error'] = 'Error: failed to delete client';
         }
 
         return $result;
