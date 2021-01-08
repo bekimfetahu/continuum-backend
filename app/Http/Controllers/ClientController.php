@@ -8,6 +8,7 @@ use App\Http\Resources\ClientResource;
 use App\Model\Client;
 use App\Services\ClientService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ClientController extends Controller
 {
@@ -27,9 +28,10 @@ class ClientController extends Controller
     public function index(Request $request)
     {
         $perPage = 10;
-        $page = $request->has('page') ? $request->page : null;
 
-        return response()->json($this->clientService->getClients($perPage, $page));
+        Log::info(print_r($request->all(),true));
+
+        return response()->json($this->clientService->getClients($perPage));
     }
 
 

@@ -59,4 +59,9 @@ class ClientDAO
         return $client->forceDelete($client);
     }
 
+    public function paginate($limit)
+    {
+        return Client::paginate($limit);
+    }
+
 }

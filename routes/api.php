@@ -12,11 +12,8 @@ use Illuminate\Support\Facades\Route;
 /**
  * Client CRUD API
  */
-Route::get('clients/{client}','ClientController@client');
-Route::get('clients','ClientController@index');
-Route::post('clients/store/','ClientController@store');
-Route::patch('clients/update/{client}','ClientController@update');
-Route::delete('clients/destroy/{client}','ClientController@destroy');
+Route::get('clients/{client}','ClientController@client'); // fetch single client
+Route::resource('clients', 'ClientController')->except(['show','edit']);
 
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

@@ -7,8 +7,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class ClientResource extends JsonResource
 {
     /**
-     * Transform the resource into an array.
-     *
+     * Transform the resource into an jsonResource
+     * In this case we need to return all fields but we might need to return only selective fields in some cases
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
@@ -16,7 +16,8 @@ class ClientResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'name'=>$this->first_name.' '.$this->last_name,
+            'first_name'=>$this->first_name,
+            'last_name'=>$this->last_name,
             'avatar'=>$this->avatar,
             'email'=>$this->email,
         ];

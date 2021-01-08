@@ -79,18 +79,12 @@ class ClientService
     }
 
     /**
-     * Creates paginate json client resource list
      * @param $perPage
-     * @param null $page
-     * @return \Illuminate\Pagination\LengthAwarePaginator
+     * @return mixed
      */
-    public function getClients($perPage, $page = null)
+    public function getClients($perPage)
     {
-        $clients = $this->clientDAO->all()->map(function ($client) {
-            return new ClientResource($client);
-        });
-
-        return (new PaginateService($clients))->paginate($perPage, null, $page);
+        return $this->clientDAO->paginate($perPage);
 
     }
 
