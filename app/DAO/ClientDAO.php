@@ -4,7 +4,6 @@
 namespace App\DAO;
 
 use App\Model\Client;
-use phpDocumentor\Reflection\Types\Boolean;
 
 /**
  * Class ClientDAO
@@ -56,12 +55,7 @@ class ClientDAO
      */
     public function delete(Client $client)
     {
-        return $client->forceDelete($client);
-    }
-
-    public function paginate($limit)
-    {
-        return Client::paginate($limit);
+        return $client->forceDelete();
     }
 
 }

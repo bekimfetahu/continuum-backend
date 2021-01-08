@@ -4,27 +4,27 @@
 namespace App\Services;
 
 
-use App\DAO\ClientDAO;
+use App\DAO\TransactionDAO;
 use App\Model\Client;
 
 
 /**
- * Class ClientService to handle business logic for client
+ * Class TransactionService to handle business logic for client transactions
  * @package App\Services
  */
-class ClientService
+class TransactionService
 {
-    protected $clientDAO = null;
+    protected $transactionDAO = null;
     protected $client = null;
 
     public function __construct(Client $client = null)
     {
-        $this->clientDAO = new ClientDAO();
+        $this->transactionDAO = new transactionDAO();
         $this->client = $client;
     }
 
     /**
-     * Create Client and return status message
+     * Create Client transaction and return status message
      * @param $data
      * @return array
      */
@@ -34,11 +34,11 @@ class ClientService
 
         try {
 
-            $this->clientDAO->create($data);
-            $result['success'] = 'Client created successfully';
+            $this->transactionDAO->create($this->client, $data);
+            $result['success'] = 'Transaction created successfully';
 
         } catch (\Exception $exception) {
-            $result['error'] = 'Error: failed to create client' . $exception->getMessage();
+            $result['error'] = 'Failed to create transaction '.$exception->getMessage();
         }
 
         return $result;
@@ -51,7 +51,7 @@ class ClientService
 
         try {
 
-            $cl = $this->clientDAO->update($client, $data);
+            $cl = $this->transactionDAO->update($client, $data);
             $result['success'] = 'Client updated successfully';
 
         } catch (\Exception $exception) {
@@ -68,7 +68,7 @@ class ClientService
 
         try {
 
-            $cl = $this->clientDAO->delete($client);
+            $cl = $this->transactionDAO->delete($client);
             $result['success'] = 'Client deleted successfully';
 
         } catch (\Illuminate\Database\QueryException $e) {
@@ -86,7 +86,7 @@ class ClientService
      */
     public function getClients($perPage)
     {
-        return $this->clientDAO->paginate($perPage);
+        return $this->transactionDAO->paginate($perPage);
 
     }
 

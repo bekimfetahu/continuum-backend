@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use App\Services\ClientService;
+use App\Services\TransactionService;
 use Illuminate\Database\Eloquent\Model;
 use App\Model\Transaction;
 
@@ -21,12 +22,12 @@ class Client extends Model
     }
 
     /**
-     * Another way to access ClientService
-     * @return ClientService
+     * Access to Transaction Service
+     * @return TransactionService
      */
-    public function service()
+    public function transactionService()
     {
-        return new ClientService($this);
+        return new TransactionService($this);
     }
 
 }

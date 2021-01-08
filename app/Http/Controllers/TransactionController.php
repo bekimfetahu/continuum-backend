@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Transaction;
+use App\Http\Resources\TransactionCollection;
+use App\Model\Transaction;
+use App\Model\Client;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
@@ -10,62 +12,37 @@ class TransactionController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Client $client
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function index(Request $request, Client $client)
     {
-        $transactions = $client->transactions->paginate(10);
-        return $transactions;
-    }
+//        $transactions = $client->transactions()->paginate(10);
+        $transactions = Transaction::paginate(10);
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return new TransactionCollection($transactions);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
-    }
+        $client = Client::find($request->client_id);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Transaction  $transaction
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Transaction $transaction)
-    {
-        //
-    }
+        return response()->json($client->transactionService()->create($request->only(['amount'])));
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Transaction  $transaction
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Transaction $transaction)
-    {
-        //
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Transaction  $transaction
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Transaction $transaction
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Transaction $transaction)
@@ -76,7 +53,7 @@ class TransactionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Transaction  $transaction
+     * @param \App\Transaction $transaction
      * @return \Illuminate\Http\Response
      */
     public function destroy(Transaction $transaction)

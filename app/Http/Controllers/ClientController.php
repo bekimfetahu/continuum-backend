@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ClientCreateRequest;
 use App\Http\Requests\ClientUpdateRequest;
-use App\Http\Resources\ClientResource;
-use App\Model\Client;
+use App\Http\Resources\Client as ClientResource;
+use App\Http\Resources\ClientCollection;
 use App\Services\ClientService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+use App\Model\Client;
+
 
 class ClientController extends Controller
 {
@@ -27,11 +28,7 @@ class ClientController extends Controller
      */
     public function index(Request $request)
     {
-        $perPage = 10;
-
-        Log::info(print_r($request->all(),true));
-
-        return response()->json($this->clientService->getClients($perPage));
+        return new ClientCollection(Client::paginate(10));
     }
 
 
@@ -74,7 +71,7 @@ class ClientController extends Controller
     /**
      * Get client data
      * @param Client $client
-     * @return ClientResource
+     * @return Client
      */
     public function client(Client $client)
     {

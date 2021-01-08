@@ -14,14 +14,18 @@ class ClientTransactionSeeder extends Seeder
      */
     public function run()
     {
-        factory(Client::class, 20)->create()
-            ->each(function ($client) {
-                factory(Transaction::class, 25)->create(
-                    [
-                        'client_id' => $client->id
-                    ]
-                );
-            });
+
+        $clients = factory(Client::class, 20)->create();
+
+        $skip = 0; // Don't insert transaction for first 10 clients to allow for delete constraint onDelete restrict
+
+        foreach ($clients as $client){
+            if(++$skip > 10){
+                factory(Transaction::class, 25)
+                    ->create(['client_id' => $client->id]);
+            }
+        }
+
 
     }
 }
