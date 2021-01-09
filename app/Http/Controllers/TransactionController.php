@@ -13,10 +13,9 @@ class TransactionController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
-     * @param Client $client
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return TransactionCollection
      */
-    public function index(Request $request, Client $client)
+    public function index(Request $request)
     {
 //        $transactions = $client->transactions()->paginate(10);
         $transactions = Transaction::paginate(10);

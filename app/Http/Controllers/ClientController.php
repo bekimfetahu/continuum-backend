@@ -28,6 +28,7 @@ class ClientController extends Controller
      */
     public function index(Request $request)
     {
+        return Client::paginate(10);
         return new ClientCollection(Client::paginate(10));
     }
 
@@ -40,7 +41,8 @@ class ClientController extends Controller
     public function store(ClientCreateRequest $request)
     {
         return response()->json($this->clientService->create(
-            $request->only(['first_name', 'last_name', 'email', 'avatar'])
+            $request->only(['first_name', 'last_name', 'email']),
+            $request->avatar
         ));
 
     }
@@ -71,7 +73,7 @@ class ClientController extends Controller
     /**
      * Get client data
      * @param Client $client
-     * @return Client
+     * @return ClientResource
      */
     public function client(Client $client)
     {

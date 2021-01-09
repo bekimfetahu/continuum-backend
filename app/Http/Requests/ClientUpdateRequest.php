@@ -24,7 +24,7 @@ class ClientUpdateRequest extends FormRequest
             'first_name' => ['required', 'string'],
             'last_name' => ['required', 'string'],
             'email' => ['required', 'unique:clients,email,' . $this->route('client')->id],
-            'avatar' => ['sometimes','required', 'string'], // TODO: will need to change for image, now for the purpose of postman test api
+            'avatar' => ['mimes:jpeg,jpg,png,gif|required|max:10000'],
         ];
     }
 }

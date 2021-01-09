@@ -15,9 +15,10 @@ class Transaction extends JsonResource
     public function toArray($request)
     {
         return [
-            'amount'=>$this->amount,
+            'id'=>$this->id,
             'client'=>$this->client->first_name,
-            'created_at'=>$this->created_at->format('d/m/Y')
+            'amount'=>$this->amount,
+            'time'=>$this->created_at->format('d/m/Y H:i:s')
         ];
     }
 }

@@ -26,8 +26,8 @@ class ClientCreateRequest extends FormRequest
         return [
             'first_name' => ['required', 'string'],
             'last_name' => ['required', 'string'],
-            'email'=>['required','unique:clients'],
-            'avatar' => ['required', 'string'], // TODO: will need to change for image, now for the purpose of postman test api
+            'email' => ['required', 'unique:clients'],
+            'avatar' => ['mimes:jpeg,jpg,png,gif|required|max:10000'],
         ];
     }
 }

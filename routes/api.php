@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('clients/{client}','ClientController@client'); // fetch single client
 Route::resource('clients', 'ClientController')->except(['show','edit']);
 
-Route::get('transactions/{client}','TransactionController@index')->name('transaction.index'); // fetch single client
+//Route::get('transactions/{client}','TransactionController@index')->name('transaction.index'); // fetch single client
 
-Route::resource('transactions', 'TransactionController')->except(['show','edit','index']);
+Route::resource('transactions', 'TransactionController')->except(['show','edit']);
 
 
 
