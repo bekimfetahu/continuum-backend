@@ -26,8 +26,8 @@ class ClientCreateRequest extends FormRequest
         return [
             'first_name' => ['required', 'string'],
             'last_name' => ['required', 'string'],
-            'email' => ['required', 'unique:clients'],
-            'avatar' => ['mimes:jpeg,jpg,png,gif|required|max:10000'],
+            'email' => ['required','email', 'unique:clients'],
+            'avatar' => ['required','mimes:jpeg,jpg,png,gif|max:10000'],
         ];
     }
 }

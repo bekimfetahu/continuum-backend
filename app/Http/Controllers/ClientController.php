@@ -28,7 +28,6 @@ class ClientController extends Controller
      */
     public function index(Request $request)
     {
-        return Client::paginate(10);
         return new ClientCollection(Client::paginate(10));
     }
 
