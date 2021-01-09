@@ -73,18 +73,20 @@ class ClientService
         $result = [];
 
         try {
-            if($avatarFile){
+            if ($avatarFile) {
                 // Delete old avatar
                 $this->deleteAvatarFile($client->avatar);
                 $name = $this->createAvatar($avatarFile);
-                $data = array_merge($data,['avatar',$name]);
+                $data = array_merge($data, ['avatar' => $name]);
             }
 
             $this->clientDAO->update($client, $data);
             $result['success'] = 'Client updated successfully';
 
+        } catch (AvatarExeption $exception) {
+            $result['error'] = $exception->getMessage();
         } catch (\Exception $exception) {
-            $result['error'] = 'Error: failed to update client';
+            $result['error'] = 'Failed to update client';
         }
 
         return $result;

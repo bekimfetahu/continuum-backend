@@ -48,14 +48,18 @@ class ClientController extends Controller
 
     /**
      * Update the Client.
+     * In the update avatar is optional
      * @param \Illuminate\Http\Request $request
      * @param Client $client
      * @return \Illuminate\Http\Response
      */
     public function update(ClientUpdateRequest $request, Client $client)
     {
+        $avatarFile = $request->hasFile('avatar') ? $request->avatar : null;
+
         return response()->json($this->clientService->update(
-            $client, $request->only(['first_name', 'last_name', 'email', 'avatar'])), 200
+            $client, $request->only(['first_name', 'last_name', 'email']),
+            $avatarFile), 200
         );
     }
 
