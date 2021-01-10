@@ -21,12 +21,13 @@ Route::resource('transactions', 'TransactionController')->except(['show', 'edit'
 
 
 // Authentication
-Route::post('/login', 'AuthController@login');
+Route::post('/login', 'AuthController@login')->name('login');
 
 //Route::middleware('auth:api')->get('/user', function (Request $request) {
 //    return $request->user();
 //});
 
 Route::middleware(['auth:api'])->group(function () {
-    Route::get('/user', 'AuthController@userData');
+    Route::get('/user', 'AuthController@user');
+    Route::post('/logout', 'AuthController@logout');
 });

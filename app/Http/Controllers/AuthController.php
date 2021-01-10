@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use App\Http\Resources\User as UserResource;
+use App\Http\Requests\LoginRequest;
 
 
 class AuthController extends Controller
@@ -16,44 +18,46 @@ class AuthController extends Controller
      * @param LoginRequest $request
      * @return Object
      */
-    public function login(LoginRequest $request){
+    public function login(LoginRequest $request)
+    {
 
         $post = [
-            "grant_type"    => "password",
+            "grant_type" => "password",
             'client_id' => config('continuum.passport_client'),
             'client_secret' => config('continuum.passport_secret'),
-            "username"      => $request->email,
-            "password"      => $request->password,
+            "username" => $request->email,
+            "password" => $request->password,
         ];
 
-        try{
-           $request->merge($post);
+        try {
 
-            $req = $request->create(route('passport.token'), 'POST');
+            request()->merge($post);
 
-            $response = Route::dispatch($req);
+            // If there is an error it is set in data.error
+            $response = Route::dispatch(request()->create(
+                route('passport.token'), 'POST')
+            );
 
-            return $response->getContent();
+            return json_decode((string) $response->getContent(), true);
 
-        }
-        catch(Exception $e){
-            if ($e->getCode() == 400) {
-                return response()->json('Wrong email or password', $e->getCode());
-            } elseif ($e->getCode() == 401) {
-                return response()->json('Incorrect credentials', $e->getCode());
-            } else if ($e->getCode() == 500) {
-                return response()->json('Error', $e->getCode());
-            } else {
-                return response()->json('Error!', $e->getCode());
-            }
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
         }
     }
 
-    public function userData(Request $request)
+    /**
+     * @param Request $request
+     * @return UserResource
+     */
+    public function user(Request $request)
     {
         return new UserResource($request->user());
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function logout(Request $request)
     {
         try {
