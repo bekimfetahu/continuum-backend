@@ -80,9 +80,10 @@ class ClientService
 
         try {
             if ($avatarFile) {
+
+                $name = $this->avatarService->createAvatar($avatarFile);
                 // Delete old avatar
                 $this->avatarService->deleteAvatarFile($client->avatar);
-                $name = $this->avatarService->createAvatar($avatarFile);
                 // set name of new avatar
                 $data = array_merge($data, ['avatar' => $name]);
             }

@@ -17,6 +17,7 @@ class UserSeeder extends Seeder
             return;
         }
         factory(User::class)->create([
+            'name'=>'Admin',
             'email' => 'admin@admin.com',
             'password' => Hash::make('password')
         ]);

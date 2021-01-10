@@ -55,6 +55,7 @@ class ClientController extends Controller
      */
     public function update(ClientUpdateRequest $request, Client $client)
     {
+
         $avatarFile = $request->hasFile('avatar') ? $request->avatar : null;
 
         return response()->json($this->clientService->update(

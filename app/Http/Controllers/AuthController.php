@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use App\Http\Resources\User as UserResource;
 use App\Http\Requests\LoginRequest;
+use App\Services\UserService;
 
 
 class AuthController extends Controller
@@ -18,7 +19,7 @@ class AuthController extends Controller
      * @param LoginRequest $request
      * @return Object
      */
-    public function login(LoginRequest $request)
+    public function login(LoginRequest $request, UserService $userService)
     {
 
         $post = [
@@ -38,7 +39,20 @@ class AuthController extends Controller
                 route('passport.token'), 'POST')
             );
 
-            return json_decode((string) $response->getContent(), true);
+            $result = json_decode((string)$response->getContent(), true);
+
+            $token = [];
+
+            if (isset($result['error'])) {
+                return response()->json(['message'=>'Wrong credentials'],401);
+            }
+
+            $user = $userService->findByEmail($post['username']);
+            $token['token'] = $result;
+            $token['user'] = new UserResource($user);
+
+            return response()->json($token,200);
+
 
         } catch (Exception $e) {
             Log::error($e->getMessage());
