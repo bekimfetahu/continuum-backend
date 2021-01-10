@@ -23,18 +23,20 @@ class ClientService
     /**
      * ClientService constructor.
      * @param Client|null $client
+     * @param ClientDAO $clientDAO
      * @param AvatarService $avatarService
      */
-    public function __construct(Client $client = null, AvatarService $avatarService)
+    public function __construct(Client $client = null, ClientDAO $clientDAO, AvatarService $avatarService)
     {
-        $this->clientDAO = new ClientDAO();
+        $this->clientDAO = $clientDAO;
         $this->client = $client;
         $this->avatarService = $avatarService;
     }
 
     /**
-     * * Create Client and return status message
-     * Since we are uploading image, we make sure that image and data is persisted successfully before commit
+     * Create Client and return status message
+     * Since we are uploading image, we make sure that avatar image
+     * and client data is persisted successfully before commit
      * If either of this fail, DB is rolled back
      *
      * @param array $data for new Client
