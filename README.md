@@ -16,14 +16,13 @@ If you run on same ports than you do not need to do any configuration in the vue
 
 ## Installation
 
-```bash
+``` bash
 $ git clone https://github.com/bekimfetahu/continuum-backend.git
 
 $ cd continuum-backend/
 
 $ composer install
-```
-```bash
+
     copy env.example to .env
 
     edit .env to your database connection
@@ -31,8 +30,7 @@ $ composer install
     DB_DATABASE=continuum
     DB_USERNAME=root
     DB_PASSWORD=
-```
-```bash
+
 $ php artisan key:generate
 
 $ php artisan migrate
@@ -40,8 +38,7 @@ $ php artisan migrate
 $ php artisan db:seed
     User: admin@admin.com pass:password is created
     First 10 Clients do not have any transactions, for delete test
-```
-```bash
+
 $ php artisan passport:keys
 
 $ php artisan passport:client --password
@@ -64,18 +61,13 @@ $ php artisan passport:client --password
 
     PASSPORT_CLIENT_ID=1
     PASSPORT_SECRET="ff73LfLSl0UW0tRipdv5yAuIr9iOwPmkURyiBBWg"
-```
-```bash
+
 $ php artisan serve
     Laravel development server started: http://127.0.0.1:8000
     
     Run phpunit tests
 $ ./vendor/bin/phpunit
 ```
----
+
 
 Note server IP and port as this is going to be used by Node Vue front end SPA
-
-
-
- 
