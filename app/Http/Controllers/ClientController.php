@@ -10,7 +10,11 @@ use App\Services\ClientService;
 use Illuminate\Http\Request;
 use App\Model\Client;
 
-
+/**
+ * Clients CRUD operations
+ * Class ClientController
+ * @package App\Http\Controllers
+ */
 class ClientController extends Controller
 {
     protected $clientService = null;
@@ -28,7 +32,7 @@ class ClientController extends Controller
      */
     public function index(Request $request)
     {
-        return new ClientCollection(Client::paginate(10));
+        return new ClientCollection(Client::orderBy('id', 'desc')->paginate(10));
     }
 
 
@@ -65,7 +69,7 @@ class ClientController extends Controller
     }
 
     /**
-     * Remove client
+     * Delete client
      * @param Client $client
      * @return void
      */
@@ -75,7 +79,7 @@ class ClientController extends Controller
     }
 
     /**
-     * Get client data
+     * Get client data as Json Resource
      * @param Client $client
      * @return ClientResource
      */

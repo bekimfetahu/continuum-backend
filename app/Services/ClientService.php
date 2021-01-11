@@ -69,6 +69,9 @@ class ClientService
     }
 
     /**
+     * Updates a Client
+     * It checks if is request to update avatar then removes old one
+     * Updates Client data
      * @param Client $client
      * @param array $data
      * @param $avatarFile
@@ -82,7 +85,7 @@ class ClientService
             if ($avatarFile) {
 
                 $name = $this->avatarService->createAvatar($avatarFile);
-                // Delete old avatar
+                // Delete old avatar, this will be done if above statement will succeed only
                 $this->avatarService->deleteAvatarFile($client->avatar);
                 // set name of new avatar
                 $data = array_merge($data, ['avatar' => $name]);
@@ -102,7 +105,7 @@ class ClientService
 
     /**
      * Delete Client
-     * Note: Not checking for avatar unlink exception as we want to
+     * Note: We are checking for avatar unlink exception as we want to
      * succeed DB client delete even if not possible to remove avatar file
      *
      * @param Client $client
@@ -113,11 +116,12 @@ class ClientService
         $result = [];
 
         try {
+            // call avatar service to remove file
             $this->avatarService->deleteAvatarFile($client->avatar);
-            $this->clientDAO->delete($client);
+            $this->clientDAO->delete($client);   // remove it from DB
             $result['success'] = 'Client deleted successfully';
 
-        } catch (\Illuminate\Database\QueryException $e) {
+        } catch (\Illuminate\Database\QueryException $e) { // DB constraint onDelete restrict
             $result['error'] = 'Policy violation on delete restriction';
         } catch (\Exception $exception) {
             $result['error'] = 'Failed to delete client';

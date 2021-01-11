@@ -47,9 +47,6 @@ class ManageTransactionsTest extends TestCase
         $user = UserFactory::create();
         $this->actingAs($user, 'api');
 
-        $res = $this->postJson($api, $attributes);
-        dd($res->content());
-
         $this->postJson($api, $attributes)
             ->assertStatus(200)
             ->assertJson([

@@ -9,6 +9,7 @@ class Client extends JsonResource
     /**
      * Transform the resource into an jsonResource
      * In this case we need to return all fields but we might need to return only selective fields in some cases
+     * If client does not have an avatar, sets to a default
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */

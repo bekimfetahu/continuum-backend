@@ -16,12 +16,16 @@ class AuthController extends Controller
     /**
      * Checking for server side OAuth authentication
      * Check for authorization
+     *
+     * To avoid storing passport client secret in vuejs we call passport to generate token within server
+     * At first I used Guzzle HTTP client to make request but due to the constraint of Laravel server as single thread
+     * this was not working, I used Route dispatch as work around just to make it easy for tester to run app in Laravel server
+     * rather then create a Virtual Host(multi thread)
      * @param LoginRequest $request
      * @return Object
      */
     public function login(LoginRequest $request, UserService $userService)
     {
-
         $post = [
             "grant_type" => "password",
             'client_id' => config('continuum.passport_client'),
@@ -34,6 +38,7 @@ class AuthController extends Controller
 
             request()->merge($post);
 
+            // Make a request to a passport route token to issue toke
             // If there is an error it is set in data.error
             $response = Route::dispatch(request()->create(
                 route('passport.token'), 'POST')
@@ -69,6 +74,7 @@ class AuthController extends Controller
     }
 
     /**
+     * Logs out an authenticated user
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */

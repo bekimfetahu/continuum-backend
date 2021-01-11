@@ -12,11 +12,11 @@ use App\Model\Client;
  */
 class ClientDAO
 {
-    public function all()
-    {
-        return Client::all();
-    }
-
+    /**
+     * Find client by id
+     * @param int $id
+     * @return mixed
+     */
     public function find(int $id)
     {
         return Client::find($id);
@@ -57,5 +57,4 @@ class ClientDAO
     {
         return $client->forceDelete();
     }
-
 }

@@ -9,18 +9,31 @@ use App\Model\Client;
 use App\Services\TransactionService;
 use Illuminate\Http\Request;
 
-
+/**
+ * To manage Client transactions
+ *
+ * I have have left edit transaction
+ * Anyway Transaction should never be deleted or modified in real scenarios but canceled
+ * but this is for demo purpose
+ *
+ * Class TransactionController
+ * @package App\Http\Controllers
+ */
 class TransactionController extends Controller
 {
     protected $transactionService = null;
 
+    /**
+     * TransactionController constructor.
+     * @param TransactionService $transactionService
+     */
     public function __construct(TransactionService $transactionService)
     {
         $this->transactionService = $transactionService;
     }
 
     /**
-     * Display a listing of the resource.
+     * Return a paginated list of transactions, json resource.
      *
      * @param Request $request
      * @return TransactionCollection
@@ -33,7 +46,7 @@ class TransactionController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created transaction.
      *
      * @param CreateTransactionRequest $request
      * @return \Illuminate\Http\Response

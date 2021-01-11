@@ -18,11 +18,19 @@ class UserService
 {
     protected $userDAO = null;
 
+    /**
+     * UserService constructor.
+     * @param UserDAO $userDAO
+     */
     public function __construct(UserDAO $userDAO)
     {
         $this->userDAO = $userDAO;
     }
 
+    /**
+     * @param $email
+     * @return mixed
+     */
     public function findByEmail($email)
     {
         return $this->userDAO->findByEmail($email);

@@ -39,7 +39,7 @@ class AvatarService
             }
             $img = Image::make($file->path());
 
-            // Resize image in proportionally
+            // Resize image proportionally
 
             $img->resize($this->imageWidth, null, function ($constraint) {
                 $constraint->aspectRatio();

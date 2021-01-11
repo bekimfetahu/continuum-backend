@@ -4,6 +4,12 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
+/**
+ * To create a json resourceful pagination
+ * Class ClientCollection
+ * @package App\Http\Resources
+ */
+
 class ClientCollection extends ResourceCollection
 {
     private $pagination;
@@ -27,7 +33,7 @@ class ClientCollection extends ResourceCollection
     {
         return [
             'data' => $this->collection,
-            'pagination' => $this->pagination
+            'pagination' => $this->pagination //for own needs
         ];
     }
 }

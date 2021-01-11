@@ -7,7 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class User extends JsonResource
 {
     /**
-     * Transform the resource into an array.
+     * Transform the resource User, only name and email needed
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array

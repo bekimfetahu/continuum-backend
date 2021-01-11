@@ -7,7 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class Transaction extends JsonResource
 {
     /**
-     * Transform the resource into an array.
+     * Returns a formated json resource transaction
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array

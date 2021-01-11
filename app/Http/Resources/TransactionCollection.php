@@ -4,6 +4,11 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
+/**
+ * To create a json resourceful Transactions pagination
+ * Class TransactionCollection
+ * @package App\Http\Resources
+ */
 class TransactionCollection extends ResourceCollection
 {
     private $pagination;
