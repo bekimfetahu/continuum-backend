@@ -34,9 +34,10 @@ class ManageClientsTest extends TestCase
             'email' => 'jon.do@gmail.com',
             'avatar' => $this->createFile(200, 200, 400)
         ];
-        $api = $this->baseUrl() . '/clients';
+        $api = $this->baseUrl() . '/clients'; //client resource route
 
-        $this->postJson($api, $attributes)->assertStatus(401); // check for non logged in user
+        $this->postJson($api, $attributes)
+            ->assertStatus(401); // check for non logged in user response status
 
         $this->actingAs($user, 'api'); // check for logged in user
 

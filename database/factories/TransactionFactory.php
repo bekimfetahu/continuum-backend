@@ -17,6 +17,6 @@ use Illuminate\Support\Str;
 $factory->define(Transaction::class, function (Faker $faker) {
     return [
         'amount' => $faker->randomFloat(1,1,150),
-        'client_id'=>null,
+        'client_id'=>factory(\App\Model\Client::class)->create(),
     ];
 });

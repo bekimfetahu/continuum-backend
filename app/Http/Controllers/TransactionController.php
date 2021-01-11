@@ -3,12 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\TransactionCollection;
+use App\Http\Requests\CreateTransactionRequest;
 use App\Model\Transaction;
 use App\Model\Client;
+use App\Services\TransactionService;
 use Illuminate\Http\Request;
+
 
 class TransactionController extends Controller
 {
+    protected $transactionService = null;
+
+    public function __construct(TransactionService $transactionService)
+    {
+        $this->transactionService = $transactionService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,8 +27,7 @@ class TransactionController extends Controller
      */
     public function index(Request $request)
     {
-//        $transactions = $client->transactions()->paginate(10);
-        $transactions = Transaction::paginate(10);
+        $transactions = Transaction::orderBy('id', 'desc')->paginate(10);
 
         return new TransactionCollection($transactions);
     }
@@ -26,12 +35,12 @@ class TransactionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param CreateTransactionRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateTransactionRequest $request)
     {
-        $client = Client::find($request->client_id);
+        $client = Client::findOrFail($request->client_id);
 
         return response()->json($client->transactionService()->create($request->only(['amount'])));
 
@@ -52,11 +61,11 @@ class TransactionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Transaction $transaction
+     * @param Transaction $transaction
      * @return \Illuminate\Http\Response
      */
     public function destroy(Transaction $transaction)
     {
-        //
+        return response()->json($this->transactionService->delete($transaction));
     }
 }

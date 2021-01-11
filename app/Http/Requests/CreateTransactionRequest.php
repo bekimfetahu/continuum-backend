@@ -24,7 +24,8 @@ class CreateTransactionRequest extends FormRequest
     public function rules()
     {
         return [
-            'client_id'=>['required','integer','exists:clients']
+            'amount' => ['required', 'numeric'],
+            'client_id' => ['required', 'integer']
         ];
     }
 }

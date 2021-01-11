@@ -5,6 +5,7 @@ namespace App\Services;
 
 
 use App\DAO\TransactionDAO;
+use App\Model\Transaction;
 use App\Model\Client;
 
 
@@ -17,10 +18,14 @@ class TransactionService
     protected $transactionDAO = null;
     protected $client = null;
 
+    /**
+     * TransactionService constructor.
+     * @param Client|null $client
+     */
     public function __construct(Client $client = null)
     {
-        $this->transactionDAO = new transactionDAO();
         $this->client = $client;
+        $this->transactionDAO = new TransactionDAO;
     }
 
     /**
@@ -38,56 +43,27 @@ class TransactionService
             $result['success'] = 'Transaction created successfully';
 
         } catch (\Exception $exception) {
-            $result['error'] = 'Failed to create transaction '.$exception->getMessage();
-        }
-
-        return $result;
-    }
-
-    public function update(Client $client, array $data)
-    {
-
-        $result = [];
-
-        try {
-
-            $cl = $this->transactionDAO->update($client, $data);
-            $result['success'] = 'Client updated successfully';
-
-        } catch (\Exception $exception) {
-            $result['error'] = 'Error: failed to update client';
-        }
-
-        return $result;
-    }
-
-    public function delete(Client $client)
-    {
-
-        $result = [];
-
-        try {
-
-            $cl = $this->transactionDAO->delete($client);
-            $result['success'] = 'Client deleted successfully';
-
-        } catch (\Illuminate\Database\QueryException $e) {
-            $result['error'] = 'Policy violation on delete restriction';
-        } catch (\Exception $exception) {
-            $result['error'] = 'Failed to delete client';
+            $result['error'] = 'Failed to create transaction';
         }
 
         return $result;
     }
 
     /**
-     * @param $perPage
-     * @return mixed
+     * Delete client transaction
+     * @param Transaction $transaction
+     * @return array
      */
-    public function getClients($perPage)
+    public function delete(Transaction $transaction)
     {
-        return $this->transactionDAO->paginate($perPage);
+        $result = [];
+        try {
+            $this->transactionDAO->delete($transaction);
+            $result['success'] = 'Transaction deleted successfully';
 
+        } catch (\Exception $exception) {
+            $result['error'] = 'Failed to delete transaction';
+        }
+        return $result;
     }
-
 }

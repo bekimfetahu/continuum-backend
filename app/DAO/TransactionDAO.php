@@ -28,14 +28,10 @@ class TransactionDAO
         return $client->transactions()->create($data);
     }
 
-    public function update(Transaction $transaction, array $attributes)
-    {
-        return $transaction->update($attributes);
-    }
-
     /**
-     * Removes Client.
-     * Note: integrity constraint will not allow to delete if there are client transactions
+     * Removes Transaction.
+     * Note: In reality we will not delete transaction but cancel it!
+     * This is for demo purpose of CRUD
      * @param Transaction $transaction
      * @return bool|null
      */
