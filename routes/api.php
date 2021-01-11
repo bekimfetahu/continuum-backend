@@ -9,11 +9,7 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-/**
- * Client CRUD API
- */
-Route::get('clients/{client}', 'ClientController@client'); // fetch single client
-Route::resource('clients', 'ClientController')->except(['show', 'edit']);
+
 
 //Route::get('transactions/{client}','TransactionController@index')->name('transaction.index'); // fetch single client
 
@@ -30,4 +26,10 @@ Route::post('/login', 'AuthController@login')->name('login');
 Route::middleware(['auth:api'])->group(function () {
     Route::get('/user', 'AuthController@user');
     Route::post('/logout', 'AuthController@logout');
+
+    /**
+     * Client CRUD API
+     */
+    Route::get('clients/{client}', 'ClientController@client'); // fetch single client
+    Route::resource('clients', 'ClientController')->except(['show', 'edit']);
 });
