@@ -1,15 +1,14 @@
 ## Project task
 
-Project consist of two parts, backend server Laravel and front which run on Node as a Vuejs SPA.
+Project consist of two parts, backend Laravel server and frontend which run as Vuejs SPA.
 
 I have used Laravel Passport grant for authentication and authorisation and the Vue app uses
-token to access authorized resources. Token expiry set for a day for the purpose of demo, other ways 
-a refresh token should be used for a more secured authentication
+token to access authorized resources.
 
-After installation, you will to run 
+After installation, you will need to run 
 php artisan serve and then open vue application 
 
-In my case vue app is served from http://localhost:8080
+In my case vue application is served from http://localhost:8080
 and backend from http://localhost:8000
 
 If you run on same ports than you do not need to do any configuration in the vue application
